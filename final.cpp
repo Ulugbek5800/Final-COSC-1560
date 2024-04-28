@@ -56,6 +56,7 @@ int main (int argc, char* argv[]) {     // argv[0] - ./program, argv[1] - KEY
             return 1;
         }
 
+        // executing the chosen operation
         if (choice == 1) {
             create(file);
         } else if (choice == 2) {
