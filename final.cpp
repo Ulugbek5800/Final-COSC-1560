@@ -141,7 +141,7 @@ void display(string file_name) {
     string line;
     cout << "\n\tData in " << file_name << endl;
 
-    while (getline(f1, line)) {     // or while(f2) { getline(f1, line); cout << line; }
+    while (getline(f1, line)) {     // or while(f1) { getline(f1, line); cout << line; }
         cout << line << endl;
     }
     f1.close();
