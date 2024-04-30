@@ -94,7 +94,7 @@ int main (int argc, char* argv[]) {     // argv[0] - ./program, argv[1] - KEY
                 cin.ignore(10000, '\n');
                 continue;
             }
-            break;
+            break;  // breaks if no input error
         }
         if (!choice) {
             cout << "Bye :)";
