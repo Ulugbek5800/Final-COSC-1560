@@ -26,7 +26,7 @@ int main (int argc, char* argv[]) {     // argv[0] - ./program, argv[1] - KEY
         return 1;
     }
 
-    // menu
+    // displaying menu
     while (true) {
         cout << "\n";
         cout << "\tChoose the operation to perform" << endl;
@@ -39,8 +39,20 @@ int main (int argc, char* argv[]) {     // argv[0] - ./program, argv[1] - KEY
 
         int choice;
         cout << "\nEnter the number: ";
-        cin >> choice;
-        
+
+        // validating input
+        try {
+            if (!(cin >> choice)) {
+                // throwing error type and message
+                throw invalid_argument("Invalid input. Please enter an integer.");
+            }
+        } catch (const invalid_argument& error) {   // error - reference to an object of type invalid_argument
+            cerr << error.what() << endl;   // displaying error message
+            cin.clear();                // clearing the error state (flags) of the input stream
+            cin.ignore(10000, '\n');    // ignore the input buffer (10000 chars, or until '\n')
+            return 1;
+        }
+
         string file;
 
         // prompting for file name if operation requires that
@@ -69,11 +81,24 @@ int main (int argc, char* argv[]) {     // argv[0] - ./program, argv[1] - KEY
             decrypt(file, argv[1]);
         }
 
-        cout << "\nEnter 1 to perform another operation, 0 to exit: ";
-        cin >> choice;
+        // asking whether to perform another operation or quit
+        while(true) {
+            cout << "\nEnter 1 to perform another operation, 0 to exit: ";
+            try {
+                if (!(cin >> choice)) {
+                    throw (invalid_argument("Invalid input. Please enter an integer."));
+                }
+            } catch (const invalid_argument& error) {
+                cerr << error.what() << endl;
+                cin.clear();
+                cin.ignore(10000, '\n');
+                continue;
+            }
+            break;
+        }
         if (!choice) {
             cout << "Bye :)";
-            break;
+            break;  // return 0;
         }
     }
 
@@ -211,7 +236,7 @@ void process(string input_file, string key, string output_file, bool mode) {
 
         // inserting ciphertext into the file
         f2 << output << endl;
-        cout << input << " -> " << output << endl;
+        // cout << input << " -> " << output << endl;
     }
 
     f1.close();
